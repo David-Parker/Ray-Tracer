@@ -1,34 +1,37 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include "PPMViewer.h"
+#include "PPMFile.h"
+
+const std::string viewerExe = ".\\OpenSeeIt\\OpenSeeIt.exe";
 
 int main(char** argv, int argc)
 {
-	std::ofstream myfile;
-	myfile.open("test.ppm");
+	std::string fileName = "HelloWorld.ppm";
 
-	int xl = 200;
-	int yl = 100;
+	int width = 200;
+	int height = 100;
+	std::vector<ColorVec3> pixels;
 
-	myfile << "P3" << std::endl;
-	myfile << xl << " " << yl << std::endl;
-	myfile << "255" << std::endl;
-
-	for (int i = yl - 1; i >= 0; i--)
+	for (int i = height - 1; i >= 0; i--)
 	{
-		for (int j = 0; j < xl; j++)
+		for (int j = 0; j < width; j++)
 		{
-			float r = float(j) / float(xl);
-			float g = float(i) / float(yl);
-			float b = 0.2f;
-			int ir = int(255.99*r);
-			int ig = int(255.99*g);
-			int ib = int(255.99*b);
+			float r = float(j) / float(width);
+			float g = float(i) / float(height);
+			float b = 0.99f;
 
-			myfile << ir << " " << ig << " " << ib << std::endl;
+			pixels.push_back(ColorVec3(r, g, b));
 		}
 	}
 
-	myfile.close();
+	PPMFile picture = PPMFile(200, 100, pixels);
+	picture.WriteToFile(fileName);
+
+	PPMViewer viewer;
+
+	viewer.OpenAndViewImage(viewerExe, fileName);
 	return 0;
 }
