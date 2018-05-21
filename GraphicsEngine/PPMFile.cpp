@@ -1,6 +1,6 @@
 #include "PPMFile.h"
 
-PPMFile::PPMFile(int width, int height, const std::vector<ColorVec3>& pixelData) : width(width), height(height), pixelData(pixelData)
+PPMFile::PPMFile(int width, int height, const std::vector<Vector3>& pixelData) : width(width), height(height), pixelData(pixelData)
 {
 }
 
@@ -18,11 +18,11 @@ void PPMFile::WriteToFile(std::string filePath)
 	myfile << width << " " << height << std::endl;
 	myfile << "255" << std::endl;
 
-	for each (ColorVec3 pixel in pixelData)
+	for each (Vector3 pixel in pixelData)
 	{
-		int ir = int(255.99*pixel.R);
-		int ig = int(255.99*pixel.G);
-		int ib = int(255.99*pixel.B);
+		int ir = int(255.99*pixel.x());
+		int ig = int(255.99*pixel.y());
+		int ib = int(255.99*pixel.z());
 
 		myfile << ir << " " << ig << " " << ib << std::endl;
 	}

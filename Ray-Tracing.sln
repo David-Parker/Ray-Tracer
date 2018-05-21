@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ray-Tracing", "Ray-Tracing\Ray-Tracing.vcxproj", "{3F1E90A3-8AFD-4100-879C-93B232CC8B6F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngine", "GraphicsEngine\GraphicsEngine.vcxproj", "{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{3F1E90A3-8AFD-4100-879C-93B232CC8B6F}.Release|x64.Build.0 = Release|x64
 		{3F1E90A3-8AFD-4100-879C-93B232CC8B6F}.Release|x86.ActiveCfg = Release|Win32
 		{3F1E90A3-8AFD-4100-879C-93B232CC8B6F}.Release|x86.Build.0 = Release|Win32
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Debug|x64.ActiveCfg = Debug|x64
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Debug|x64.Build.0 = Debug|x64
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Debug|x86.ActiveCfg = Debug|Win32
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Debug|x86.Build.0 = Debug|Win32
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Release|x64.ActiveCfg = Release|x64
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Release|x64.Build.0 = Release|x64
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Release|x86.ActiveCfg = Release|Win32
+		{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

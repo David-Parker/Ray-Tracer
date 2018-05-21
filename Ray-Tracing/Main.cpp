@@ -13,17 +13,15 @@ int main(char** argv, int argc)
 
 	int width = 200;
 	int height = 100;
-	std::vector<ColorVec3> pixels;
+	std::vector<Vector3> pixels;
 
 	for (int i = height - 1; i >= 0; i--)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			float r = float(j) / float(width);
-			float g = float(i) / float(height);
-			float b = 0.99f;
+			Vector3 rgb = Vector3(float(j) / float(width), float(i) / float(height), 0.2f);
 
-			pixels.push_back(ColorVec3(r, g, b));
+			pixels.push_back(rgb);
 		}
 	}
 
