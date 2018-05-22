@@ -42,6 +42,7 @@ std::string Camera::RenderScene(Scene* scene)
 					Vector3 color = 0.5f * (normal + Vector3(1.0f, 1.0f, 1.0f));
 
 					pixel = color;
+					break;
 				}
 			}
 

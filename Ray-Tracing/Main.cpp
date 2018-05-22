@@ -16,10 +16,10 @@ const std::string viewerExe = ".\\OpenSeeIt\\OpenSeeIt.exe";
 int main(char** argv, int argc)
 {
 	Window window = Window(200, 100);
-	Camera camera = Camera(window, Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
+	Camera camera = Camera(window, Vector3(0.0, 0.0, 0.0), Vector3(0.0, 0.0, 0.0));
 	Scene scene = Scene("Test");
-	SceneObject* sphere = new SphereObject(Vector3(0.0f, 0.0f, -1.0f), 0.5f);
-	SceneObject* sphere2 = new SphereObject(Vector3(-1.0f, 0.0f, -1.0f), 0.5f);
+	SceneObject* sphere = new SphereObject(Vector3(0.0, 0.0, -1.0), 0.5);
+	SceneObject* sphere2 = new SphereObject(Vector3(0.0, -100.5, -1.0), 100.0);
 	scene.AddObject(sphere);
 	scene.AddObject(sphere2);
 	SceneManager sm = SceneManager(&camera, &scene);

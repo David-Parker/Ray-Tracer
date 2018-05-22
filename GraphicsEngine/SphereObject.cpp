@@ -7,48 +7,44 @@ SphereObject::~SphereObject()
 bool SphereObject::Intersects(const Ray& ray, std::vector<Hit>& hits)
 {
 	Vector3 direction = ray.direction();
-	Vector3 vecBetweenRayAndObjectCenter = ray.origin() - this->position;
+	Vector3 oc = ray.origin() - this->center;
 
 	float a = direction.Dot(direction);
-	float b = 2.0f * direction.Dot(vecBetweenRayAndObjectCenter);
-	float c = vecBetweenRayAndObjectCenter.Dot(vecBetweenRayAndObjectCenter) - this->radius * this->radius;
+	float b = 2.0f * oc.Dot(direction);
+	float c = oc.Dot(oc) - (this->radius * this->radius);
 
-	float quadrant = b*b - 4.0f * a*c;
+	float radicand = b*b - (4.0f * a*c);
 
-	if (quadrant < 0)
+	if (radicand < 0)
 	{
 		return false;
 	}
-	if (quadrant == 0)
-	{
-		float t1 = -b / 2.0f * a;
-		Hit h;
-		h.t = t1;
-		h.point = ray.Fire(t1);
-		h.normal = Vector3::Unit(h.point - this->position);
-
-		hits.push_back(h);
-
-		return true;
-	}
 	else
 	{
-		float t1 = (-b + sqrtf(quadrant)) / 2.0f * a;
-		float t2 = (-b - sqrtf(quadrant)) / 2.0f * a;
+		float t = (-b - sqrtf(radicand)) / 2.0f * a;
 
-		Hit h1;
-		h1.t = t1;
-		h1.point = ray.Fire(t1);
-		h1.normal = Vector3::Unit(h1.point - this->position);
+		if (t > 0)
+		{
+			Hit h;
+			h.t = t;
+			h.point = ray.Fire(t);
+			h.normal = Vector3::Unit(h.point - this->center);
+			hits.push_back(h);
+		}
 
-		Hit h2;
-		h2.t = t2;
-		h2.point = ray.Fire(t2);
-		h2.normal = Vector3::Unit(h2.point - this->position);
+		t = (-b + sqrtf(radicand)) / 2.0f * a;
 
-		hits.push_back(h1);
-		hits.push_back(h2);
+		if (t > 0)
+		{
+			Hit h;
+			h.t = t;
+			h.point = ray.Fire(t);
+			h.normal = Vector3::Unit(h.point - this->center);
+			hits.push_back(h);
+		}
 
-		return true;
+		if (hits.size() > 0) return true;
+
+		return false;
 	}
 }
