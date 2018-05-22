@@ -20,8 +20,8 @@ int main(char** argv, int argc)
 	Scene scene = Scene("Test");
 	SceneObject* sphere = new SphereObject(Vector3(0.0, 0.0, -1.0), 0.5);
 	SceneObject* sphere2 = new SphereObject(Vector3(0.0, -100.5, -1.0), 100.0);
-	scene.AddObject(sphere);
 	scene.AddObject(sphere2);
+	scene.AddObject(sphere);
 	SceneManager sm = SceneManager(&camera, &scene);
 
 	PPMViewer viewer;

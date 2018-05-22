@@ -30,6 +30,8 @@ std::string Camera::RenderScene(Scene* scene)
 
 			std::vector<SceneObject*> objects = scene->GetObjects();
 			Vector3 pixel = ray.Color();
+			Hit closestHit;
+			bool hasHit = false;
 
 			for each(auto& obj in objects)
 			{
@@ -37,13 +39,28 @@ std::string Camera::RenderScene(Scene* scene)
 
 				if (obj->Intersects(ray, hits) == true)
 				{
-					Vector3 normal = hits[0].normal;
-
-					Vector3 color = 0.5f * (normal + Vector3(1.0f, 1.0f, 1.0f));
-
-					pixel = color;
-					break;
+					if (hasHit == false)
+					{
+						closestHit = hits[0];
+						hasHit = true;
+					}
+					else
+					{
+						if ((hits[0].point - this->position).Length() < (closestHit.point - this->position).Length())
+						{
+							closestHit = hits[0];
+						}
+					}
 				}
+			}
+
+			if (hasHit)
+			{
+				Vector3 normal = closestHit.normal;
+
+				Vector3 color = 0.5f * (normal + Vector3(1.0f, 1.0f, 1.0f));
+
+				pixel = color;
 			}
 
 			pixels.push_back(pixel);
