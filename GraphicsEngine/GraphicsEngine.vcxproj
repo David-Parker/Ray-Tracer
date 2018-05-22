@@ -19,14 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Hit.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="PPMFile.h" />
     <ClInclude Include="PPMViewer.h" />
+    <ClInclude Include="Ray.h" />
+    <ClInclude Include="SphereObject.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Hit.cpp" />
     <ClCompile Include="PPMFile.cpp" />
     <ClCompile Include="PPMViewer.cpp" />
+    <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SphereObject.cpp" />
     <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6DD5DF45-67CA-4E50-B20A-B4C89B44A27F}</ProjectGuid>

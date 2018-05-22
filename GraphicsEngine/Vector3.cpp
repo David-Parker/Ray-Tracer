@@ -7,17 +7,24 @@ Vector3::Vector3(float x, float y, float z)
 	Z = z;
 }
 
-inline const Vector3& Vector3::operator+() const
+Vector3::Vector3()
+{
+	X = 0.0f;
+	Y = 0.0f;
+	Z = 0.0f;
+}
+
+const Vector3& Vector3::operator+() const
 {
 	return *this;
 }
 
-inline Vector3 Vector3::operator-() const
+Vector3 Vector3::operator-() const
 {
 	return Vector3(-X, -Y, -Z);
 }
 
-inline float Vector3::operator[](int index) const
+float Vector3::operator[](int index) const
 {
 	if (index >= 3 || index < 0)
 	{
@@ -27,7 +34,7 @@ inline float Vector3::operator[](int index) const
 	return data[index];
 }
 
-inline float& Vector3::operator[](int index)
+float& Vector3::operator[](int index)
 {
 	if (index >= 3 || index < 0)
 	{
@@ -37,7 +44,7 @@ inline float& Vector3::operator[](int index)
 	return data[index];
 }
 
-inline Vector3& Vector3::operator+=(const Vector3& rhs)
+Vector3& Vector3::operator+=(const Vector3& rhs)
 {
 	X += rhs.x();
 	Y += rhs.y();
@@ -46,7 +53,7 @@ inline Vector3& Vector3::operator+=(const Vector3& rhs)
 	return *this;
 }
 
-inline Vector3& Vector3::operator-=(const Vector3& rhs)
+Vector3& Vector3::operator-=(const Vector3& rhs)
 {
 	X -= rhs.x();
 	Y -= rhs.y();
@@ -55,7 +62,7 @@ inline Vector3& Vector3::operator-=(const Vector3& rhs)
 	return *this;
 }
 
-inline Vector3& Vector3::operator*=(const Vector3& rhs)
+Vector3& Vector3::operator*=(const Vector3& rhs)
 {
 	X *= rhs.x();
 	Y *= rhs.y();
@@ -64,7 +71,7 @@ inline Vector3& Vector3::operator*=(const Vector3& rhs)
 	return *this;
 }
 
-inline Vector3& Vector3::operator/=(const Vector3& rhs)
+Vector3& Vector3::operator/=(const Vector3& rhs)
 {
 	X /= rhs.x();
 	Y /= rhs.y();
@@ -73,7 +80,7 @@ inline Vector3& Vector3::operator/=(const Vector3& rhs)
 	return *this;
 }
 
-inline Vector3& Vector3::operator*=(const float scalar)
+Vector3& Vector3::operator*=(const float scalar)
 {
 	X *= scalar;
 	Y *= scalar;
@@ -82,7 +89,7 @@ inline Vector3& Vector3::operator*=(const float scalar)
 	return *this;
 }
 
-inline Vector3& Vector3::operator/=(const float scalar)
+Vector3& Vector3::operator/=(const float scalar)
 {
 	X /= scalar;
 	Y /= scalar;
@@ -91,42 +98,43 @@ inline Vector3& Vector3::operator/=(const float scalar)
 	return *this;
 }
 
-inline Vector3 Vector3::operator+(const Vector3 & rhs)
-{
-	return Vector3(X + rhs.x(), Y + rhs.y(), Z + rhs.z());
-}
-
-inline Vector3 Vector3::operator-(const Vector3 & rhs)
-{
-	return Vector3(X - rhs.x(), Y - rhs.y(), Z - rhs.z());
-}
-
-inline Vector3 Vector3::operator*(const Vector3 & rhs)
-{
-	return Vector3(X * rhs.x(), Y * rhs.y(), Z * rhs.z());
-}
-
-inline Vector3 Vector3::operator/(const Vector3 & rhs)
-{
-	return Vector3(X / rhs.x(), Y / rhs.y(), Z / rhs.z());
-}
-
-inline float Vector3::Length()
+float Vector3::Length() const
 {
 	return sqrtf(X*X + Y*Y + Z*Z);
 }
 
-inline float Vector3::Dot(const Vector3& rhs)
+float Vector3::Dot(const Vector3& rhs) const
 {
 	return X*rhs.x() + Y*rhs.y() + Z*rhs.z();
 }
 
-inline Vector3& Vector3::Normalize()
+Vector3& Vector3::Normalize()
 {
 	return *this /= Length();
 }
 
-inline Vector3 Vector3::Cross(const Vector3& rhs)
+Vector3 Vector3::Cross(const Vector3& rhs)
 {
 	return Vector3(Y * rhs.z() - Z * rhs.y(), -(X * rhs.z() - Z * rhs.x()), X * rhs.y() - Y * rhs.x());
+}
+
+float Vector3::AngleBetween(const Vector3 & rhs)
+{
+	return acosf(Unit(*this).Dot(Unit(rhs)));
+}
+
+Vector3 Vector3::Unit(const Vector3& v)
+{
+	float l = v.Length();
+	return Vector3(v.x() / l, v.y() / l, v.z() / l);
+}
+
+Vector3 Vector3::Lerp(const Vector3 & lhs, const Vector3 & rhs, const float t)
+{
+	if (t > 1.0f || t < 0)
+	{
+		throw "t must be a value between 0.0 and 1.0";
+	}
+
+	return (1.0f - t) * lhs + t* rhs;
 }
