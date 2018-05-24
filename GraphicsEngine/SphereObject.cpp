@@ -1,10 +1,23 @@
 #include "SphereObject.h"
 
+Vector3 SphereObject::GetRandomUnitSphereDirection()
+{
+	Vector3 point;
+
+	do
+	{
+		point = 2.0*Vector3(CoolMath::RandomScalar(), CoolMath::RandomScalar(), CoolMath::RandomScalar()) - Vector3(1, 1, 1);
+	} 
+	while (point.SquaredLength() >= 1.0);
+
+	return point;
+}
+
 SphereObject::~SphereObject()
 {
 }
 
-bool SphereObject::Intersects(const Ray& ray, std::vector<Hit>& hits)
+bool SphereObject::Intersects(const Ray& ray, Hit& hit)
 {
 	Vector3 direction = ray.direction();
 	Vector3 oc = ray.origin() - this->center;
@@ -13,38 +26,41 @@ bool SphereObject::Intersects(const Ray& ray, std::vector<Hit>& hits)
 	float b = 2.0f * oc.Dot(direction);
 	float c = oc.Dot(oc) - (this->radius * this->radius);
 
-	float radicand = b*b - (4.0f * a*c);
+	float descriminant = b*b - (4.0f * a*c);
 
-	if (radicand < 0)
+	if (descriminant > 0)
 	{
-		return false;
-	}
-	else
-	{
-		float t = (-b - sqrtf(radicand)) / 2.0f * a;
+		float t = (-b - sqrtf(descriminant)) / (2.0f * a);
 
 		if (t > 0)
 		{
-			Hit h;
-			h.t = t;
-			h.point = ray.Fire(t);
-			h.normal = Vector3::Unit(h.point - this->center);
-			hits.push_back(h);
+			hit.t = t;
+			hit.point = ray.Fire(t);
+			hit.distance = hit.point.Length();
+			hit.normal = Vector3::Unit(hit.point - this->center);
+
+			return true;
 		}
 
-		t = (-b + sqrtf(radicand)) / 2.0f * a;
+		t = (-b + sqrtf(descriminant)) / (2.0f * a);
 
 		if (t > 0)
 		{
-			Hit h;
-			h.t = t;
-			h.point = ray.Fire(t);
-			h.normal = Vector3::Unit(h.point - this->center);
-			hits.push_back(h);
+			hit.t = t;
+			hit.point = ray.Fire(t);
+			hit.distance = hit.point.Length();
+			hit.normal = Vector3::Unit(hit.point - this->center);
+
+			return true;
 		}
-
-		if (hits.size() > 0) return true;
-
-		return false;
 	}
+
+	return false;
+}
+
+Vector3 SphereObject::GetReflectionVector(const Hit& hit)
+{
+	Vector3 direction = this->GetRandomUnitSphereDirection();
+
+	return hit.normal + direction;
 }

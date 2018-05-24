@@ -1,7 +1,7 @@
 #pragma once
-#include <math.h>
 #include <string>
 #include <vector>
+#include "CoolMath.h"
 #include "PPMFile.h"
 #include "Ray.h"
 #include "Scene.h"
@@ -20,6 +20,9 @@ private:
 	Window window;
 	Vector3 position;
 	std::vector<Vector3> pixels;
+	const float antiAliasingSamples = 5.0;
+
+	Vector3 GetPixelColor(const Ray& ray, Scene* scene);
 
 public:
 	Camera(const Window& window, const Vector3& position, const Vector3& direction) : window(window), position(position), direction(direction), pixels() {}

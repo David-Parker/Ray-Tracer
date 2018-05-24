@@ -21,23 +21,24 @@ public:
 	Vector3();
 
 	// Operators
-	const Vector3& operator+() const;
-	Vector3 operator-() const;
-	float operator[](int index) const;
-	float& operator[](int index);
-	Vector3& operator+=(const Vector3& rhs);
-	Vector3& operator-=(const Vector3& rhs);
-	Vector3& operator*=(const Vector3& rhs);
-	Vector3& operator/=(const Vector3& rhs);
-	Vector3& operator*=(const float scalar);
-	Vector3& operator/=(const float scalar);
+	inline const Vector3& operator+() const;
+	inline Vector3 operator-() const;
+	inline float operator[](int index) const;
+	inline float& operator[](int index);
+	inline Vector3& operator+=(const Vector3& rhs);
+	inline Vector3& operator-=(const Vector3& rhs);
+	inline Vector3& operator*=(const Vector3& rhs);
+	inline Vector3& operator/=(const Vector3& rhs);
+	inline Vector3& operator*=(const float scalar);
+	inline Vector3& operator/=(const float scalar);
 
 	// Methods
 	inline float Length() const;
-	float Dot(const Vector3& rhs) const;
-	Vector3& Normalize();
-	Vector3 Cross(const Vector3& rhs);
-	float AngleBetween(const Vector3& rhs);
+	inline float SquaredLength() const;
+	inline float Dot(const Vector3& rhs) const;
+	inline Vector3& Normalize();
+	inline Vector3 Cross(const Vector3& rhs);
+	inline float AngleBetween(const Vector3& rhs);
 
 	// Static methods
 	static Vector3 Unit(const Vector3& v);

@@ -103,6 +103,11 @@ float Vector3::Length() const
 	return sqrtf(X*X + Y*Y + Z*Z);
 }
 
+float Vector3::SquaredLength() const
+{
+	return (X*X + Y*Y + Z*Z);
+}
+
 float Vector3::Dot(const Vector3& rhs) const
 {
 	return X*rhs.x() + Y*rhs.y() + Z*rhs.z();

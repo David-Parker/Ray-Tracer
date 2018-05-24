@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Hit.h" />
+    <ClInclude Include="CoolMath.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
@@ -34,6 +35,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Hit.cpp" />
+    <ClCompile Include="CoolMath.cpp" />
     <ClCompile Include="PPMFile.cpp" />
     <ClCompile Include="PPMViewer.cpp" />
     <ClCompile Include="Ray.cpp" />

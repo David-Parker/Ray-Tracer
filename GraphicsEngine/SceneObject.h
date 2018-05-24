@@ -14,6 +14,7 @@ public:
 	~SceneObject() {}
 
 	Vector3 GetPosition() { return center; }
-	virtual bool Intersects(const Ray& ray, std::vector<Hit>& hits) = 0;
+	virtual bool Intersects(const Ray& ray, Hit& hit) = 0;
+	virtual Vector3 GetReflectionVector(const Hit& hit) = 0;
 };
 

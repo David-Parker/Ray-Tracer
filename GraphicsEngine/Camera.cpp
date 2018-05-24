@@ -1,5 +1,39 @@
 #include "Camera.h"
 
+Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene)
+{
+	std::vector<SceneObject*> objects = scene->GetObjects();
+	Vector3 pixel = ray.Color();
+	Hit closestHit;
+	SceneObject* closestObject = nullptr;
+	float minDistance = INFINITY;
+
+	for each(auto& obj in objects)
+	{
+		Hit hit;
+
+		if (obj->Intersects(ray, hit) == true)
+		{
+			if (hit.distance < minDistance)
+			{
+				closestHit = hit;
+				closestObject = obj;
+				minDistance = hit.distance;
+			}
+		}
+	}
+
+	if (minDistance != INFINITY)
+	{
+		Vector3 reflection = closestObject->GetReflectionVector(closestHit);
+		Vector3 color = 0.5f * GetPixelColor(Ray(closestHit.point, reflection), scene);
+
+		pixel = color;
+	}
+
+	return pixel;
+}
+
 Camera::~Camera()
 {
 }
@@ -22,48 +56,22 @@ std::string Camera::RenderScene(Scene* scene)
 	{
 		for (int j = 0; j < this->window.Width(); j++)
 		{
-			float u = float(j) / float(this->window.Width());
-			float v = float(i) / float(this->window.Height());
-			Vector3 offset = lowerLeft + u*horizontal + v*vertical;
+			Vector3 pixel;
 
-			Ray ray = Ray(this->position, offset);
-
-			std::vector<SceneObject*> objects = scene->GetObjects();
-			Vector3 pixel = ray.Color();
-			Hit closestHit;
-			bool hasHit = false;
-
-			for each(auto& obj in objects)
+			for (int k = 0; k < antiAliasingSamples; k++)
 			{
-				std::vector<Hit> hits;
+				float r = CoolMath::RandomScalar();
 
-				if (obj->Intersects(ray, hits) == true)
-				{
-					if (hasHit == false)
-					{
-						closestHit = hits[0];
-						hasHit = true;
-					}
-					else
-					{
-						if ((hits[0].point - this->position).Length() < (closestHit.point - this->position).Length())
-						{
-							closestHit = hits[0];
-						}
-					}
-				}
+				float u = float(j + r) / float(this->window.Width());
+				float v = float(i + r) / float(this->window.Height());
+				Vector3 offset = lowerLeft + u*horizontal + v*vertical - this->position;
+
+				Ray ray = Ray(this->position, offset);
+
+				pixel += GetPixelColor(ray, scene);
 			}
 
-			if (hasHit)
-			{
-				Vector3 normal = closestHit.normal;
-
-				Vector3 color = 0.5f * (normal + Vector3(1.0f, 1.0f, 1.0f));
-
-				pixel = color;
-			}
-
-			pixels.push_back(pixel);
+			pixels.push_back(pixel / antiAliasingSamples);
 		}
 	}
 
