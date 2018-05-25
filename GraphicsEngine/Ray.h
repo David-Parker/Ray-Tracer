@@ -9,6 +9,7 @@ private:
 	Vector3 b;
 
 public:
+	Ray();
 	Ray(const Vector3& x, const Vector3& y);
 	~Ray();
 

@@ -9,13 +9,11 @@ class SphereObject : public SceneObject
 {
 private:
 	float radius;
-	Vector3 GetRandomUnitSphereDirection();
 
 public:
-	SphereObject(const Vector3& position, const float& radius) : SceneObject(position), radius(radius) {}
+	SphereObject(const Vector3& position, const float& radius, Material* material) : SceneObject(position, material), radius(radius) {}
 	~SphereObject();
 
-	virtual bool Intersects(const Ray& ray, Hit& hit);
-	virtual Vector3 GetReflectionVector(const Hit& hit);
+	inline virtual bool Intersects(const Ray& ray, Hit& hit, float minTime, float maxTime);
 };
 

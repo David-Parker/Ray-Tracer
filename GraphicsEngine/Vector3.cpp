@@ -123,6 +123,11 @@ Vector3 Vector3::Cross(const Vector3& rhs)
 	return Vector3(Y * rhs.z() - Z * rhs.y(), -(X * rhs.z() - Z * rhs.x()), X * rhs.y() - Y * rhs.x());
 }
 
+Vector3 Vector3::Reflect(const Vector3& normal)
+{
+	return *this - 2 * (X*normal.x() + Y*normal.y() + Z*normal.z())*normal;
+}
+
 float Vector3::AngleBetween(const Vector3 & rhs)
 {
 	return acosf(Unit(*this).Dot(Unit(rhs)));
@@ -134,7 +139,7 @@ Vector3 Vector3::Unit(const Vector3& v)
 	return Vector3(v.x() / l, v.y() / l, v.z() / l);
 }
 
-Vector3 Vector3::Lerp(const Vector3 & lhs, const Vector3 & rhs, const float t)
+Vector3 Vector3::Lerp(const Vector3& lhs, const Vector3 & rhs, const float t)
 {
 	if (t > 1.0f || t < 0)
 	{

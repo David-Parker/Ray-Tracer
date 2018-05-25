@@ -1,23 +1,11 @@
 #include "SphereObject.h"
 
-Vector3 SphereObject::GetRandomUnitSphereDirection()
-{
-	Vector3 point;
-
-	do
-	{
-		point = 2.0*Vector3(CoolMath::RandomScalar(), CoolMath::RandomScalar(), CoolMath::RandomScalar()) - Vector3(1, 1, 1);
-	} 
-	while (point.SquaredLength() >= 1.0);
-
-	return point;
-}
-
 SphereObject::~SphereObject()
 {
+	delete material;
 }
 
-bool SphereObject::Intersects(const Ray& ray, Hit& hit)
+bool SphereObject::Intersects(const Ray& ray, Hit& hit, float minTime, float maxTime)
 {
 	Vector3 direction = ray.direction();
 	Vector3 oc = ray.origin() - this->center;
@@ -32,11 +20,12 @@ bool SphereObject::Intersects(const Ray& ray, Hit& hit)
 	{
 		float t = (-b - sqrtf(descriminant)) / (2.0f * a);
 
-		if (t > 0)
+		if (t > minTime && t < maxTime)
 		{
 			hit.t = t;
 			hit.point = ray.Fire(t);
 			hit.distance = hit.point.Length();
+			hit.material = this->material;
 			hit.normal = Vector3::Unit(hit.point - this->center);
 
 			return true;
@@ -44,11 +33,12 @@ bool SphereObject::Intersects(const Ray& ray, Hit& hit)
 
 		t = (-b + sqrtf(descriminant)) / (2.0f * a);
 
-		if (t > 0)
+		if (t > minTime && t < maxTime)
 		{
 			hit.t = t;
 			hit.point = ray.Fire(t);
 			hit.distance = hit.point.Length();
+			hit.material = this->material;
 			hit.normal = Vector3::Unit(hit.point - this->center);
 
 			return true;
@@ -56,11 +46,4 @@ bool SphereObject::Intersects(const Ray& ray, Hit& hit)
 	}
 
 	return false;
-}
-
-Vector3 SphereObject::GetReflectionVector(const Hit& hit)
-{
-	Vector3 direction = this->GetRandomUnitSphereDirection();
-
-	return hit.normal + direction;
 }

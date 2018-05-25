@@ -1,23 +1,21 @@
 #include "Camera.h"
 
-Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene)
+Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene, int depth)
 {
 	std::vector<SceneObject*> objects = scene->GetObjects();
-	Vector3 pixel = ray.Color();
+	Vector3 sky = ray.Color();
 	Hit closestHit;
-	SceneObject* closestObject = nullptr;
 	float minDistance = INFINITY;
 
 	for each(auto& obj in objects)
 	{
 		Hit hit;
 
-		if (obj->Intersects(ray, hit) == true)
+		if (obj->Intersects(ray, hit, 0.001, INFINITY) == true)
 		{
 			if (hit.distance < minDistance)
 			{
 				closestHit = hit;
-				closestObject = obj;
 				minDistance = hit.distance;
 			}
 		}
@@ -25,13 +23,20 @@ Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene)
 
 	if (minDistance != INFINITY)
 	{
-		Vector3 reflection = closestObject->GetReflectionVector(closestHit);
-		Vector3 color = 0.5f * GetPixelColor(Ray(closestHit.point, reflection), scene);
+		Ray scattered;
+		Vector3 attenuation;
 
-		pixel = color;
+		if (depth < 50 && closestHit.material->Scatter(ray, closestHit, attenuation, scattered))
+		{
+			return attenuation*GetPixelColor(scattered, scene, ++depth);
+		}
+		else
+		{
+			return Vector3(0, 0, 0);
+		}
 	}
 
-	return pixel;
+	return sky;
 }
 
 Camera::~Camera()
@@ -68,10 +73,13 @@ std::string Camera::RenderScene(Scene* scene)
 
 				Ray ray = Ray(this->position, offset);
 
-				pixel += GetPixelColor(ray, scene);
+				pixel += GetPixelColor(ray, scene, 0);
 			}
 
-			pixels.push_back(pixel / antiAliasingSamples);
+			pixel /= antiAliasingSamples;
+			pixel = Vector3(sqrt(pixel.x()), sqrt(pixel.y()), sqrt(pixel.z()));
+
+			pixels.push_back(pixel);
 		}
 	}
 

@@ -22,7 +22,7 @@ private:
 	std::vector<Vector3> pixels;
 	const float antiAliasingSamples = 5.0;
 
-	Vector3 GetPixelColor(const Ray& ray, Scene* scene);
+	Vector3 GetPixelColor(const Ray& ray, Scene* scene, int depth);
 
 public:
 	Camera(const Window& window, const Vector3& position, const Vector3& direction) : window(window), position(position), direction(direction), pixels() {}

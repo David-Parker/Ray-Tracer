@@ -22,6 +22,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Hit.h" />
     <ClInclude Include="CoolMath.h" />
+    <ClInclude Include="Lambertian.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Metal.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
@@ -36,6 +39,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Hit.cpp" />
     <ClCompile Include="CoolMath.cpp" />
+    <ClCompile Include="Lambertian.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Metal.cpp" />
     <ClCompile Include="PPMFile.cpp" />
     <ClCompile Include="PPMViewer.cpp" />
     <ClCompile Include="Ray.cpp" />

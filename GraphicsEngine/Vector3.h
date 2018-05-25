@@ -2,7 +2,7 @@
 #include <math.h>
 
 /* Represents a vector with 3 components */
-struct Vector3
+class Vector3
 {
 private:
 	float data[3];
@@ -38,6 +38,7 @@ public:
 	inline float Dot(const Vector3& rhs) const;
 	inline Vector3& Normalize();
 	inline Vector3 Cross(const Vector3& rhs);
+	inline Vector3 Reflect(const Vector3& normal);
 	inline float AngleBetween(const Vector3& rhs);
 
 	// Static methods
