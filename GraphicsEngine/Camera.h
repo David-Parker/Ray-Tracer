@@ -8,6 +8,7 @@
 #include "SceneObject.h"
 #include "Window.h"
 #include "Vector3.h"
+#include <ppl.h>
 
 /* Represents an object that contains a window. */
 class Camera
@@ -20,12 +21,16 @@ private:
 	Window window;
 	Vector3 position;
 	std::vector<Vector3> pixels;
-	const float antiAliasingSamples = 5.0;
+	const float antiAliasingSamples = 50.0;
 
 	Vector3 GetPixelColor(const Ray& ray, Scene* scene, int depth);
 
 public:
-	Camera(const Window& window, const Vector3& position, const Vector3& direction) : window(window), position(position), direction(direction), pixels() {}
+	Camera(const Window& window, const Vector3& position, const Vector3& direction) : window(window), position(position), direction(direction)
+	{
+		pixels = std::vector<Vector3>(window.height * window.width);
+	}
+
 	~Camera();
 
 	void Move(const Vector3& delta);

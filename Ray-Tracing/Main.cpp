@@ -17,7 +17,7 @@ const std::string viewerExe = ".\\OpenSeeIt\\OpenSeeIt.exe";
 
 int main(char** argv, int argc)
 {
-	Window window = Window(400, 200);
+	Window window = Window(1600, 800);
 	Camera camera = Camera(window, Vector3(0.0, 0.0, 0.0), Vector3(0.0, 0.0, 0.0));
 	Scene scene = Scene("Test");
 	SceneObject* sphere1 = new SphereObject(Vector3(0.0, 0.0, -1.0), 0.5, new Lambertian(Vector3(0.2,0.9,0.3)));

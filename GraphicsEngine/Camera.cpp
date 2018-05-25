@@ -7,8 +7,9 @@ Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene, int depth)
 	Hit closestHit;
 	float minDistance = INFINITY;
 
-	for each(auto& obj in objects)
+	for (int i = 0; i < objects.size(); ++i)
 	{
+		SceneObject* obj = objects[i];
 		Hit hit;
 
 		if (obj->Intersects(ray, hit, 0.001, INFINITY) == true)
@@ -26,7 +27,7 @@ Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene, int depth)
 		Ray scattered;
 		Vector3 attenuation;
 
-		if (depth < 50 && closestHit.material->Scatter(ray, closestHit, attenuation, scattered))
+		if (depth < 20 && closestHit.material->Scatter(ray, closestHit, attenuation, scattered))
 		{
 			return attenuation*GetPixelColor(scattered, scene, ++depth);
 		}
@@ -56,10 +57,14 @@ std::string Camera::RenderScene(Scene* scene)
 	}
 
 	std::string fileName = scene->GetName() + ".ppm";
+	int height = this->window.height;
+	int width = this->window.width;
 
-	for (int i = this->window.Height() - 1; i >= 0; i--)
+	for (int i = height - 1; i >= 0; --i)
 	{
-		for (int j = 0; j < this->window.Width(); j++)
+		size_t t = width;
+
+		concurrency::parallel_for(size_t(0), t, [&](size_t j)
 		{
 			Vector3 pixel;
 
@@ -67,8 +72,8 @@ std::string Camera::RenderScene(Scene* scene)
 			{
 				float r = CoolMath::RandomScalar();
 
-				float u = float(j + r) / float(this->window.Width());
-				float v = float(i + r) / float(this->window.Height());
+				float u = float(j + r) / float(width);
+				float v = float(i + r) / float(height);
 				Vector3 offset = lowerLeft + u*horizontal + v*vertical - this->position;
 
 				Ray ray = Ray(this->position, offset);
@@ -79,11 +84,11 @@ std::string Camera::RenderScene(Scene* scene)
 			pixel /= antiAliasingSamples;
 			pixel = Vector3(sqrt(pixel.x()), sqrt(pixel.y()), sqrt(pixel.z()));
 
-			pixels.push_back(pixel);
-		}
+			pixels[((height - i - 1)*width) + j] = pixel;
+		});
 	}
 
-	PPMFile picture = PPMFile(this->window.Width(), this->window.Height(), pixels);
+	PPMFile picture = PPMFile(this->window.width, this->window.height, pixels);
 	picture.WriteToFile(fileName);
 
 	return fileName;

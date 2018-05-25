@@ -25,6 +25,7 @@ public:
 	inline Vector3 operator-() const;
 	inline float operator[](int index) const;
 	inline float& operator[](int index);
+
 	inline Vector3& operator+=(const Vector3& rhs) {
 		X += rhs.x();
 		Y += rhs.y();
@@ -32,8 +33,25 @@ public:
 
 		return *this;
 	}
-	inline Vector3& operator-=(const Vector3& rhs);
-	inline Vector3& operator*=(const Vector3& rhs);
+
+	inline Vector3& operator-=(const Vector3& rhs)
+	{
+		X -= rhs.x();
+		Y -= rhs.y();
+		Z -= rhs.z();
+
+		return *this;
+	}
+
+	inline Vector3& operator*=(const Vector3& rhs)
+	{
+		X *= rhs.x();
+		Y *= rhs.y();
+		Z *= rhs.z();
+
+		return *this;
+	}
+
 	inline Vector3& operator/=(const Vector3& rhs)
 	{
 		X /= rhs.x();
@@ -42,7 +60,16 @@ public:
 
 		return *this;
 	}
-	inline Vector3& operator*=(const float scalar);
+
+	inline Vector3& operator*=(const float scalar)
+	{
+		X *= scalar;
+		Y *= scalar;
+		Z *= scalar;
+
+		return *this;
+	}
+
 	inline Vector3& operator/=(const float scalar)
 	{
 		X /= scalar;
@@ -58,10 +85,10 @@ public:
 	inline float Dot(const Vector3& rhs) const { return X*rhs.x() + Y*rhs.y() + Z*rhs.z(); }
 	inline Vector3& Normalize();
 	inline Vector3 Cross(const Vector3& rhs);
-	static Vector3 Reflect(const Vector3& vec, const Vector3& normal);
 	inline float AngleBetween(const Vector3& rhs);
 
 	// Static methods
+	static Vector3 Reflect(const Vector3& vec, const Vector3& normal);
 	static Vector3 Unit(const Vector3& v);
 	static Vector3 Lerp(const Vector3& lhs, const Vector3& rhs, const float t);
 	static Vector3 Left() { return Vector3(1.0f, 0.0f, 0.0f); }

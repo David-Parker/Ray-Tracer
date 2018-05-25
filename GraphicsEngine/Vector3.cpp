@@ -44,33 +44,6 @@ float& Vector3::operator[](int index)
 	return data[index];
 }
 
-Vector3& Vector3::operator-=(const Vector3& rhs)
-{
-	X -= rhs.x();
-	Y -= rhs.y();
-	Z -= rhs.z();
-
-	return *this;
-}
-
-Vector3& Vector3::operator*=(const Vector3& rhs)
-{
-	X *= rhs.x();
-	Y *= rhs.y();
-	Z *= rhs.z();
-
-	return *this;
-}
-
-Vector3& Vector3::operator*=(const float scalar)
-{
-	X *= scalar;
-	Y *= scalar;
-	Z *= scalar;
-
-	return *this;
-}
-
 float Vector3::Length() const
 {
 	return sqrtf(X*X + Y*Y + Z*Z);
