@@ -44,15 +44,6 @@ float& Vector3::operator[](int index)
 	return data[index];
 }
 
-Vector3& Vector3::operator+=(const Vector3& rhs)
-{
-	X += rhs.x();
-	Y += rhs.y();
-	Z += rhs.z();
-
-	return *this;
-}
-
 Vector3& Vector3::operator-=(const Vector3& rhs)
 {
 	X -= rhs.x();
@@ -71,15 +62,6 @@ Vector3& Vector3::operator*=(const Vector3& rhs)
 	return *this;
 }
 
-Vector3& Vector3::operator/=(const Vector3& rhs)
-{
-	X /= rhs.x();
-	Y /= rhs.y();
-	Z /= rhs.z();
-
-	return *this;
-}
-
 Vector3& Vector3::operator*=(const float scalar)
 {
 	X *= scalar;
@@ -89,28 +71,9 @@ Vector3& Vector3::operator*=(const float scalar)
 	return *this;
 }
 
-Vector3& Vector3::operator/=(const float scalar)
-{
-	X /= scalar;
-	Y /= scalar;
-	Z /= scalar;
-
-	return *this;
-}
-
 float Vector3::Length() const
 {
 	return sqrtf(X*X + Y*Y + Z*Z);
-}
-
-float Vector3::SquaredLength() const
-{
-	return (X*X + Y*Y + Z*Z);
-}
-
-float Vector3::Dot(const Vector3& rhs) const
-{
-	return X*rhs.x() + Y*rhs.y() + Z*rhs.z();
 }
 
 Vector3& Vector3::Normalize()
@@ -123,9 +86,9 @@ Vector3 Vector3::Cross(const Vector3& rhs)
 	return Vector3(Y * rhs.z() - Z * rhs.y(), -(X * rhs.z() - Z * rhs.x()), X * rhs.y() - Y * rhs.x());
 }
 
-Vector3 Vector3::Reflect(const Vector3& normal)
+Vector3 Vector3::Reflect(const Vector3 & vec, const Vector3 & normal)
 {
-	return *this - 2 * (X*normal.x() + Y*normal.y() + Z*normal.z())*normal;
+	return vec - 2 * (vec.x()*normal.x() + vec.y()*normal.y() + vec.z()*normal.z())*normal;
 }
 
 float Vector3::AngleBetween(const Vector3 & rhs)

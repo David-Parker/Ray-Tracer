@@ -19,7 +19,7 @@ int main(char** argv, int argc)
 {
 	Window window = Window(400, 200);
 	Camera camera = Camera(window, Vector3(0.0, 0.0, 0.0), Vector3(0.0, 0.0, 0.0));
-	/*Scene scene = Scene("Test");
+	Scene scene = Scene("Test");
 	SceneObject* sphere1 = new SphereObject(Vector3(0.0, 0.0, -1.0), 0.5, new Lambertian(Vector3(0.2,0.9,0.3)));
 	SceneObject* sphere2 = new SphereObject(Vector3(-1.0, 0.0, -1.0), 0.5, new Metal());
 	SceneObject* sphere3 = new SphereObject(Vector3(1.0, 0.0, -1.0), 0.5, new Metal());
@@ -32,7 +32,7 @@ int main(char** argv, int argc)
 
 	PPMViewer viewer;
 
-	viewer.OpenAndViewImage(viewerExe, sm.RenderCurrentScene());*/
+	viewer.OpenAndViewImage(viewerExe, sm.RenderCurrentScene());
 
 	return 0;
 }
