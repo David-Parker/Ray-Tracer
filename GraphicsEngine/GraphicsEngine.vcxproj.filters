@@ -66,6 +66,9 @@
     <ClInclude Include="Metal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Glass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PPMFile.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files\Materials</Filter>
     </ClCompile>
     <ClCompile Include="Metal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Glass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

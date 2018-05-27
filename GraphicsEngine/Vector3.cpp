@@ -14,36 +14,6 @@ Vector3::Vector3()
 	Z = 0.0f;
 }
 
-const Vector3& Vector3::operator+() const
-{
-	return *this;
-}
-
-Vector3 Vector3::operator-() const
-{
-	return Vector3(-X, -Y, -Z);
-}
-
-float Vector3::operator[](int index) const
-{
-	if (index >= 3 || index < 0)
-	{
-		throw "Index out of range";
-	}
-
-	return data[index];
-}
-
-float& Vector3::operator[](int index)
-{
-	if (index >= 3 || index < 0)
-	{
-		throw "Index out of range";
-	}
-
-	return data[index];
-}
-
 float Vector3::Length() const
 {
 	return sqrtf(X*X + Y*Y + Z*Z);
@@ -54,14 +24,26 @@ Vector3& Vector3::Normalize()
 	return *this /= Length();
 }
 
-Vector3 Vector3::Cross(const Vector3& rhs)
-{
-	return Vector3(Y * rhs.z() - Z * rhs.y(), -(X * rhs.z() - Z * rhs.x()), X * rhs.y() - Y * rhs.x());
-}
-
 Vector3 Vector3::Reflect(const Vector3 & vec, const Vector3 & normal)
 {
 	return vec - 2 * (vec.x()*normal.x() + vec.y()*normal.y() + vec.z()*normal.z())*normal;
+}
+
+bool Vector3::Refract(const Vector3 & vec, const Vector3 & normal, float refracticeIndex, Vector3 & refracted)
+{
+	Vector3 unitRay = Vector3::Unit(vec);
+	float dt = unitRay.Dot(normal);
+	float discriminant = 1.0 - refracticeIndex*(1 - dt*dt);
+
+	if (discriminant > 0)
+	{
+		refracted = refracticeIndex*(unitRay - normal*dt) - normal*sqrt(discriminant);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 float Vector3::AngleBetween(const Vector3 & rhs)

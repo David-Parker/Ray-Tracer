@@ -27,7 +27,7 @@ Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene, int depth)
 		Ray scattered;
 		Vector3 attenuation;
 
-		if (depth < 20 && closestHit.material->Scatter(ray, closestHit, attenuation, scattered))
+		if (depth < 50 && closestHit.material->Scatter(ray, closestHit, attenuation, scattered))
 		{
 			return attenuation*GetPixelColor(scattered, scene, ++depth);
 		}
@@ -38,6 +38,14 @@ Vector3 Camera::GetPixelColor(const Ray& ray, Scene* scene, int depth)
 	}
 
 	return sky;
+}
+
+Ray Camera::GetRay(float u, float v)
+{
+	Vector3 rd = lensRadius*CoolMath::RandomVectorInUnitDisk();
+	Vector3 offset = x * rd.x() + y * rd.y();
+
+	return Ray(this->position + offset, lowerLeft + u*horizontal + v*vertical - position - offset);
 }
 
 Camera::~Camera()
@@ -74,9 +82,8 @@ std::string Camera::RenderScene(Scene* scene)
 
 				float u = float(j + r) / float(width);
 				float v = float(i + r) / float(height);
-				Vector3 offset = lowerLeft + u*horizontal + v*vertical - this->position;
 
-				Ray ray = Ray(this->position, offset);
+				Ray ray = GetRay(u, v);
 
 				pixel += GetPixelColor(ray, scene, 0);
 			}

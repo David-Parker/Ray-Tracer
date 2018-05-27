@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Glass.h" />
     <ClInclude Include="Hit.h" />
     <ClInclude Include="CoolMath.h" />
     <ClInclude Include="Lambertian.h" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Glass.cpp" />
     <ClCompile Include="Hit.cpp" />
     <ClCompile Include="CoolMath.cpp" />
     <ClCompile Include="Lambertian.cpp" />

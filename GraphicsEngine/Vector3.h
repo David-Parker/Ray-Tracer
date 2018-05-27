@@ -21,10 +21,35 @@ public:
 	Vector3();
 
 	// Operators
-	inline const Vector3& operator+() const;
-	inline Vector3 operator-() const;
-	inline float operator[](int index) const;
-	inline float& operator[](int index);
+	inline const Vector3& operator+() const
+	{
+		return *this;
+	}
+
+	inline Vector3 operator-() const
+	{
+		return Vector3(-X, -Y, -Z);
+	}
+
+	inline float operator[](int index) const
+	{
+		if (index >= 3 || index < 0)
+		{
+			throw "Index out of range";
+		}
+
+		return data[index];
+	}
+
+	inline float& operator[](int index)
+	{
+		if (index >= 3 || index < 0)
+		{
+			throw "Index out of range";
+		}
+
+		return data[index];
+	}
 
 	inline Vector3& operator+=(const Vector3& rhs) {
 		X += rhs.x();
@@ -84,11 +109,15 @@ public:
 	inline float SquaredLength() const { return (X*X + Y*Y + Z*Z); }
 	inline float Dot(const Vector3& rhs) const { return X*rhs.x() + Y*rhs.y() + Z*rhs.z(); }
 	inline Vector3& Normalize();
-	inline Vector3 Cross(const Vector3& rhs);
+	inline Vector3 Cross(const Vector3& rhs)
+	{
+		return Vector3(Y * rhs.z() - Z * rhs.y(), -(X * rhs.z() - Z * rhs.x()), X * rhs.y() - Y * rhs.x());
+	}
 	inline float AngleBetween(const Vector3& rhs);
 
 	// Static methods
 	static Vector3 Reflect(const Vector3& vec, const Vector3& normal);
+	static bool Refract(const Vector3& vec, const Vector3& normal, float refracticeIndex, Vector3& refracted);
 	static Vector3 Unit(const Vector3& v);
 	static Vector3 Lerp(const Vector3& lhs, const Vector3& rhs, const float t);
 	static Vector3 Left() { return Vector3(1.0f, 0.0f, 0.0f); }
